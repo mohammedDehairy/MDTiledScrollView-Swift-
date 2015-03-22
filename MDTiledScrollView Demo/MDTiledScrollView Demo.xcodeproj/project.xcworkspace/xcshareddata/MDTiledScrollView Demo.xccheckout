@@ -6,22 +6,30 @@
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>9A64E681-1DA2-4BDB-B525-17EF5BC3D5E4</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MDTiledScrollView Demo</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>6AC1C6B650B50A383CC48F15ADCFCBC8BBB00885</key>
 		<string>https://bitbucket.org/meldehairy/e-motion.git</string>
+		<key>765BB1251427BDF0845BBD649455CA6F19D1B4E9</key>
+		<string>https://github.com/mohammedDehairy/MDTiledScrollView-Swift-.git</string>
 	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>MDTiledScrollView Demo/MDTiledScrollView Demo.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>6AC1C6B650B50A383CC48F15ADCFCBC8BBB00885</key>
-		<string>e-motion/</string>
+		<string>../../../../e-motion</string>
+		<key>765BB1251427BDF0845BBD649455CA6F19D1B4E9</key>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://bitbucket.org/meldehairy/e-motion.git</string>
+	<string>https://github.com/mohammedDehairy/MDTiledScrollView-Swift-.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>6AC1C6B650B50A383CC48F15ADCFCBC8BBB00885</string>
+	<string>765BB1251427BDF0845BBD649455CA6F19D1B4E9</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -31,6 +39,14 @@
 			<string>6AC1C6B650B50A383CC48F15ADCFCBC8BBB00885</string>
 			<key>IDESourceControlWCCName</key>
 			<string>e-motion</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>765BB1251427BDF0845BBD649455CA6F19D1B4E9</string>
+			<key>IDESourceControlWCCName</key>
+			<string>MDTiledScrollView</string>
 		</dict>
 	</array>
 </dict>

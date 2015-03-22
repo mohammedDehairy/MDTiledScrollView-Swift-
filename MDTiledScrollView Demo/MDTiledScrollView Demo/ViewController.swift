@@ -17,6 +17,7 @@ class ViewController: UIViewController ,TiledScrollViewDelegate{
         
         let tiledScrollView = TiledScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height), contentSize: CGSize(width: 10000, height: 10000), tiledDelegate: self);
         tiledScrollView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
+        
         self.view.addSubview(tiledScrollView);
     }
 

@@ -78,7 +78,7 @@ class TiledScrollView: UIScrollView  {
         
         let boundRect = self.convertRect(self.bounds, toView: self.containerView);
         
-        // add/remove tiles horizontall
+        // add/remove tiles horizontall*****************************************************
         for array in visibleViews
         {
             
@@ -158,7 +158,7 @@ class TiledScrollView: UIScrollView  {
         
         
         
-        // add/remove tiles vertically
+        // add/remove tiles vertically*****************************************************
         
         //add views at the right
         var view2 = visibleViews.getTail()!.getHead()!;
