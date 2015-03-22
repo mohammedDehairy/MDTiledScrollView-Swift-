@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>9A64E681-1DA2-4BDB-B525-17EF5BC3D5E4</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>6AC1C6B650B50A383CC48F15ADCFCBC8BBB00885</key>
+		<string>https://bitbucket.org/meldehairy/e-motion.git</string>
+	</dict>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>6AC1C6B650B50A383CC48F15ADCFCBC8BBB00885</key>
+		<string>e-motion/</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/meldehairy/e-motion.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>6AC1C6B650B50A383CC48F15ADCFCBC8BBB00885</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6AC1C6B650B50A383CC48F15ADCFCBC8BBB00885</string>
+			<key>IDESourceControlWCCName</key>
+			<string>e-motion</string>
+		</dict>
+	</array>
+</dict>
+</plist>
