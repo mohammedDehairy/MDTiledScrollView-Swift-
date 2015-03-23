@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol TiledScrollViewDelegate
+protocol TiledScrollViewDelegate : class
 {
     /**
     Ask the delegate for the view to be used as a tile at specific x index (from left to right) , and y index (from top to bottom)
@@ -19,32 +19,40 @@ protocol TiledScrollViewDelegate
     
     :returns: returns the tile view at the specified xIndex , and yIndex
     */
-    func viewForTileAtIndex(xIndex : Int , yIndex : Int , frame : CGRect)-> UIView;
+    func tileForTiledScrollView(tiledScrollView : TiledScrollView,xIndex : Int , yIndex : Int , frame : CGRect)-> UIView;
 }
 
 class TiledScrollView: UIScrollView  {
     
-    
-    private var visibleViews : LinkedList<LinkedList<UIView>> = LinkedList<LinkedList<UIView>>();
+    //matrix of currently visible views
+    private var visibleViews  : LinkedList<LinkedList<UIView>> = LinkedList<LinkedList<UIView>>();
+    //tiles container view
     private var containerView : UIView!;
+    //tile size
+    private var tileSize      : CGSize!;
     
+    //tiling delegate
+    weak var tilingDelegate : TiledScrollViewDelegate?;
     
-    var tilingDelegate : TiledScrollViewDelegate?;
-    
-    init(frame: CGRect , contentSize : CGSize , tiledDelegate : TiledScrollViewDelegate?) {
+    init(frame: CGRect , contentSize : CGSize , tiledDelegate : TiledScrollViewDelegate? , tileSize : CGSize) {
         
         super.init(frame: frame)
         
         self.contentSize = contentSize;
         
+        //initialise the tiling delegate
         self.tilingDelegate = tiledDelegate;
         
+        //initialise the tile size
+        self.tileSize = tileSize;
+        
+        //initialise th UI
         self.initialiseUI(frame);
     }
     
     convenience override init(frame: CGRect) {
         
-        self.init(frame: frame , contentSize : frame.size , tiledDelegate : nil)
+        self.init(frame: frame , contentSize : frame.size , tiledDelegate : nil , tileSize: frame.size);
         
         self.initialiseUI(frame);
     }
@@ -57,13 +65,15 @@ class TiledScrollView: UIScrollView  {
     
     private func initialiseUI(frame : CGRect)
     {
-        
+        //initialise th tiles container view
         containerView = UIView(frame: CGRectMake(0, 0, frame.size.width, self.contentSize.height));
         self.addSubview(containerView);
         
+        //initialise the visible views matrix
         visibleViews.appendObjectToHead(LinkedList<UIView>());
         
-        let newView = self.createView(CGRectMake(0, 0, frame.size.width, frame.size.height) , xIndex : 0 , yIndex : 0)
+        //create the top left tile view at (0,0)
+        let newView = self.createView(CGRectMake(0, 0, tileSize.width, tileSize.height) , xIndex : 0 , yIndex : 0)
         containerView.addSubview(newView)
         visibleViews.getTail()?.appendObjectToTail(newView);
         
@@ -81,78 +91,94 @@ class TiledScrollView: UIScrollView  {
         // add/remove tiles horizontall*****************************************************
         for array in visibleViews
         {
-            
-            //add views at the bottom
-            var view : UIView! = array.getTail()!;
-            var maxY = CGRectGetMaxY(view.frame);
-            
-            while maxY < CGRectGetMaxY(boundRect)
-            {
-                let yPosition = view.frame.origin.y + view.frame.size.height;
-                let xPosition = view.frame.origin.x;
+            autoreleasepool({
                 
-                let newView = self.createView(CGRectMake(xPosition, yPosition , frame.size.width, frame.size.height) , xIndex : Int(CGFloat(xPosition) / view.frame.size.width) ,yIndex : Int(CGFloat(yPosition) / view.frame.size.height))
-                containerView.addSubview(newView);
-                array.appendObjectToTail(newView);
+                //add views at the bottom
+                var view : UIView! = array.getTail()!;
+                var maxY = CGRectGetMaxY(view.frame);
+                
+                while maxY < CGRectGetMaxY(boundRect)
+                {
+                    autoreleasepool({
+                        let yPosition = view.frame.origin.y + view.frame.size.height;
+                        let xPosition = view.frame.origin.x;
+                        
+                        let newView = self.createView(CGRectMake(xPosition, yPosition , self.tileSize.width, self.tileSize.height) , xIndex : Int(CGFloat(xPosition) / view.frame.size.width) ,yIndex : Int(CGFloat(yPosition) / view.frame.size.height))
+                        self.containerView.addSubview(newView);
+                        array.appendObjectToTail(newView);
+                        
+                        
+                        view = array.getTail()!;
+                        maxY  = CGRectGetMaxY(view.frame);
+                    });
+                }
                 
                 
-                view = array.getTail()!;
-                maxY  = CGRectGetMaxY(view.frame);
-            }
-            
-            
-            
-            //add views at the top
-            view = array.getHead()!;
-            var minY  = CGRectGetMinY(view.frame);
-            
-            while minY > CGRectGetMinY(boundRect)
-            {
-                let yPosition = view.frame.origin.y - view.frame.size.height;
-                let xPosition = view.frame.origin.x;
                 
-                let newView = self.createView(CGRectMake(xPosition, yPosition , frame.size.width, frame.size.height) , xIndex : Int(CGFloat(xPosition) / view.frame.size.width) , yIndex : Int(CGFloat(yPosition) / view.frame.size.height))
-                containerView.addSubview(newView);
-                array.appendObjectToHead(newView);
-                
+                //add views at the top
                 view = array.getHead()!;
-                minY = CGRectGetMinY(view.frame);
+                var minY  = CGRectGetMinY(view.frame);
                 
-            }
+                while minY > CGRectGetMinY(boundRect)
+                {
+                    autoreleasepool({
+                        
+                        let yPosition = view.frame.origin.y - view.frame.size.height;
+                        let xPosition = view.frame.origin.x;
+                        
+                        let newView = self.createView(CGRectMake(xPosition, yPosition , self.tileSize.width, self.tileSize.height) , xIndex : Int(CGFloat(xPosition) / view.frame.size.width) , yIndex : Int(CGFloat(yPosition) / view.frame.size.height))
+                        self.containerView.addSubview(newView);
+                        array.appendObjectToHead(newView);
+                        
+                        view = array.getHead()!;
+                        minY = CGRectGetMinY(view.frame);
+                        
+                    });
+                    
+                }
+                
             
-        
-        
-        
-            //remove views that has fallen beyond the bottom edge
-            view = array.getTail()?;
-            minY  = CGRectGetMinY(view.frame)
             
-            while minY > CGRectGetMaxY(boundRect)
-            {
-                view.removeFromSuperview();
-                array.removeFromTail();
-                
-                
+            
+                //remove views that has fallen beyond the bottom edge
                 view = array.getTail()?;
-                minY = CGRectGetMinY(view.frame)
+                minY  = CGRectGetMinY(view.frame)
                 
-            }
+                while minY > CGRectGetMaxY(boundRect)
+                {
+                    autoreleasepool({
+                    
+                        view.removeFromSuperview();
+                        array.removeFromTail();
+                        
+                        
+                        view = array.getTail()?;
+                        minY = CGRectGetMinY(view.frame)
+                        
+                    });
+                    
+                }
 
-        
-        
-            //remove views that has fallen beyond the top edge
-            view = array.getHead()?;
-            maxY  = CGRectGetMaxY(view.frame);
             
-            while maxY < CGRectGetMinY(boundRect)
-            {
-                view.removeFromSuperview();
-                array.removeFromHead();
-                
+            
+                //remove views that has fallen beyond the top edge
                 view = array.getHead()?;
                 maxY  = CGRectGetMaxY(view.frame);
                 
-            }
+                while maxY < CGRectGetMinY(boundRect)
+                {
+                    autoreleasepool({
+                        view.removeFromSuperview();
+                        array.removeFromHead();
+                        
+                        view = array.getHead()?;
+                        maxY  = CGRectGetMaxY(view.frame);
+                        
+                    });
+                    
+                }
+                
+            });
             
         }
         
@@ -166,23 +192,29 @@ class TiledScrollView: UIScrollView  {
         
         while maxX < CGRectGetMaxX(boundRect)
         {
-            var newArray = LinkedList<UIView>();
+            autoreleasepool({
             
-            for var index = 0 ; index < visibleViews.getTail()?.count ; index++
-            {
-                let xPosition = view2.frame.origin.x + view2.frame.size.width;
-                let yPosition = view2.frame.origin.y + CGFloat(index) * view2.frame.size.height;
+                var newArray = LinkedList<UIView>();
                 
-                let newView = self.createView(CGRectMake(xPosition , yPosition, frame.size.width, frame.size.height) , xIndex : Int(CGFloat(xPosition) / view2.frame.size.width) , yIndex : Int(CGFloat(yPosition) / view2.frame.size.height))
-                containerView.addSubview(newView);
-                newArray.appendObjectToTail(newView);
+                for var index = 0 ; index < self.visibleViews.getTail()?.count ; index++
+                {
+                    autoreleasepool({
+                        let xPosition = view2.frame.origin.x + view2.frame.size.width;
+                        let yPosition = view2.frame.origin.y + CGFloat(index) * view2.frame.size.height;
+                        
+                        let newView = self.createView(CGRectMake(xPosition , yPosition, self.tileSize.width, self.tileSize.height) , xIndex : Int(CGFloat(xPosition) / view2.frame.size.width) , yIndex : Int(CGFloat(yPosition) / view2.frame.size.height))
+                        self.containerView.addSubview(newView);
+                        newArray.appendObjectToTail(newView);
+                    });
+                    
+                }
                 
-            }
-            
-            visibleViews.appendObjectToTail(newArray);
-            
-            view2 = visibleViews.getTail()!.getHead()!;
-            maxX  = CGRectGetMaxX(view2.frame);
+                self.visibleViews.appendObjectToTail(newArray);
+                
+                view2 = self.visibleViews.getTail()!.getHead()!;
+                maxX  = CGRectGetMaxX(view2.frame);
+                
+            });
             
         }
         
@@ -195,22 +227,28 @@ class TiledScrollView: UIScrollView  {
         
         while minX > CGRectGetMinX(boundRect)
         {
-            var newArray = LinkedList<UIView>();
-            
-            for var index = 0 ; index < visibleViews.getHead()?.count ; index++
-            {
-                let xPosition = view1.frame.origin.x - view1.frame.size.width;
-                let yPosition = view1.frame.origin.y + CGFloat(index) * view1.frame.size.height;
+            autoreleasepool({
+                var newArray = LinkedList<UIView>();
                 
-                let newView = self.createView(CGRectMake(xPosition, yPosition, frame.size.width, frame.size.height) , xIndex : Int(CGFloat(xPosition) / view2.frame.size.width) , yIndex : Int(CGFloat(yPosition) / view1.frame.size.height))
-                containerView.addSubview(newView);
-                newArray.appendObjectToTail(newView);
-            }
-            
-            visibleViews.appendObjectToHead(newArray);
-            
-            view1 = visibleViews.getHead()?.getHead()?;
-            minX  = CGRectGetMinX(view1.frame);
+                for var index = 0 ; index < self.visibleViews.getHead()?.count ; index++
+                {
+                    autoreleasepool({
+                        
+                        let xPosition = view1.frame.origin.x - view1.frame.size.width;
+                        let yPosition = view1.frame.origin.y + CGFloat(index) * view1.frame.size.height;
+                        
+                        let newView = self.createView(CGRectMake(xPosition, yPosition, self.tileSize.width, self.tileSize.height) , xIndex : Int(CGFloat(xPosition) / view2.frame.size.width) , yIndex : Int(CGFloat(yPosition) / view1.frame.size.height))
+                        self.containerView.addSubview(newView);
+                        newArray.appendObjectToTail(newView);
+                        
+                    });
+                }
+                
+                self.visibleViews.appendObjectToHead(newArray);
+                
+                view1 = self.visibleViews.getHead()?.getHead()?;
+                minX  = CGRectGetMinX(view1.frame);
+            });
             
         }
         
@@ -223,16 +261,18 @@ class TiledScrollView: UIScrollView  {
         
         while minX > CGRectGetMaxX(boundRect)
         {
+            autoreleasepool({
             
-            for view in visibleViews.getTail()!
-            {
-                view.removeFromSuperview();
-            }
-            
-            visibleViews.removeFromTail();
-            
-            view2 = visibleViews.getTail()!.getHead()!;
-            minX  = CGRectGetMinX(view2.frame)
+                for view in self.visibleViews.getTail()!
+                {
+                    view.removeFromSuperview();
+                }
+                
+                self.visibleViews.removeFromTail();
+                
+                view2 = self.visibleViews.getTail()!.getHead()!;
+                minX  = CGRectGetMinX(view2.frame)
+            });
             
         }
         
@@ -244,17 +284,18 @@ class TiledScrollView: UIScrollView  {
         
         while maxX < CGRectGetMinX(boundRect)
         {
-            
-            for view in visibleViews.getHead()!
-            {
-                view.removeFromSuperview();
-            }
-            
-            visibleViews.removeFromHead();
-            
-            
-            view1 = visibleViews.getHead()!.getHead()!;
-            maxX  = CGRectGetMaxX(view1.frame);
+            autoreleasepool({
+                for view in self.visibleViews.getHead()!
+                {
+                    view.removeFromSuperview();
+                }
+                
+                self.visibleViews.removeFromHead();
+                
+                
+                view1 = self.visibleViews.getHead()!.getHead()!;
+                maxX  = CGRectGetMaxX(view1.frame);
+            });
             
         }
         
@@ -262,12 +303,13 @@ class TiledScrollView: UIScrollView  {
         
     }
     
+    
     private func createView( frame : CGRect , xIndex : Int , yIndex : Int)-> UIView
     {
         
         if(tilingDelegate != nil)
         {
-            let tileView = tilingDelegate!.viewForTileAtIndex(xIndex , yIndex: yIndex , frame : frame);
+            let tileView = tilingDelegate!.tileForTiledScrollView(self, xIndex: xIndex , yIndex: yIndex , frame : frame);
             tileView.frame = frame;
             return tileView;
             

@@ -15,7 +15,7 @@ class ViewController: UIViewController ,TiledScrollViewDelegate{
         
         self.view.backgroundColor = UIColor(red: 224.0/255.0, green: 224.0/255.0, blue: 224.0/255.0, alpha: 1.0);
         
-        let tiledScrollView = TiledScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height), contentSize: CGSize(width: 10000, height: 10000), tiledDelegate: self);
+        let tiledScrollView = TiledScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height), contentSize: CGSize(width: 100000, height: 100000), tiledDelegate: self , tileSize : CGSize(width: self.view.frame.size.width, height: self.view.frame.size.width));
         tiledScrollView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
         
         self.view.addSubview(tiledScrollView);
@@ -26,7 +26,7 @@ class ViewController: UIViewController ,TiledScrollViewDelegate{
         // Dispose of any resources that can be recreated.
     }
     
-    func viewForTileAtIndex(xIndex: Int , yIndex : Int, frame: CGRect) -> UIView
+    func tileForTiledScrollView(tiledScrollView: TiledScrollView, xIndex: Int, yIndex: Int, frame: CGRect) -> UIView
     {
         
         let newView = UIView(frame: frame);
