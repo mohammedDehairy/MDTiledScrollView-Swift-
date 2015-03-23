@@ -14,8 +14,8 @@
 		3D2528531ABF3527008928F5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D2528511ABF3527008928F5 /* LaunchScreen.xib */; };
 		3D25285F1ABF3527008928F5 /* MDTiledScrollView_DemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25285E1ABF3527008928F5 /* MDTiledScrollView_DemoTests.swift */; };
 		3D25286A1ABF3567008928F5 /* TiledScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2528691ABF3567008928F5 /* TiledScrollView.swift */; };
-		3D25286E1ABF357E008928F5 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25286C1ABF357E008928F5 /* LinkedList.swift */; };
-		3D25286F1ABF357E008928F5 /* LinkedListNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25286D1ABF357E008928F5 /* LinkedListNode.swift */; };
+		3D5572611AC0494600EDBE39 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D55725F1AC0494600EDBE39 /* LinkedList.swift */; };
+		3D5572621AC0494600EDBE39 /* LinkedListNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5572601AC0494600EDBE39 /* LinkedListNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,8 +40,8 @@
 		3D25285D1ABF3527008928F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D25285E1ABF3527008928F5 /* MDTiledScrollView_DemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDTiledScrollView_DemoTests.swift; sourceTree = "<group>"; };
 		3D2528691ABF3567008928F5 /* TiledScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiledScrollView.swift; sourceTree = "<group>"; };
-		3D25286C1ABF357E008928F5 /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
-		3D25286D1ABF357E008928F5 /* LinkedListNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedListNode.swift; sourceTree = "<group>"; };
+		3D55725F1AC0494600EDBE39 /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
+		3D5572601AC0494600EDBE39 /* LinkedListNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedListNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,21 +122,20 @@
 		3D2528681ABF3567008928F5 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				3D25286B1ABF357E008928F5 /* LinkedList */,
+				3D55725E1AC0494600EDBE39 /* LinkedList */,
 				3D2528691ABF3567008928F5 /* TiledScrollView.swift */,
 			);
 			name = Classes;
 			path = ../Classes;
 			sourceTree = "<group>";
 		};
-		3D25286B1ABF357E008928F5 /* LinkedList */ = {
+		3D55725E1AC0494600EDBE39 /* LinkedList */ = {
 			isa = PBXGroup;
 			children = (
-				3D25286C1ABF357E008928F5 /* LinkedList.swift */,
-				3D25286D1ABF357E008928F5 /* LinkedListNode.swift */,
+				3D55725F1AC0494600EDBE39 /* LinkedList.swift */,
+				3D5572601AC0494600EDBE39 /* LinkedListNode.swift */,
 			);
-			name = LinkedList;
-			path = "../../e-motion/Helper Classes/LinkedList";
+			path = LinkedList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,9 +240,9 @@
 			files = (
 				3D25284B1ABF3527008928F5 /* ViewController.swift in Sources */,
 				3D25286A1ABF3567008928F5 /* TiledScrollView.swift in Sources */,
-				3D25286E1ABF357E008928F5 /* LinkedList.swift in Sources */,
+				3D5572611AC0494600EDBE39 /* LinkedList.swift in Sources */,
 				3D2528491ABF3527008928F5 /* AppDelegate.swift in Sources */,
-				3D25286F1ABF357E008928F5 /* LinkedListNode.swift in Sources */,
+				3D5572621AC0494600EDBE39 /* LinkedListNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +436,7 @@
 				3D2528641ABF3527008928F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3D2528651ABF3527008928F5 /* Build configuration list for PBXNativeTarget "MDTiledScrollView DemoTests" */ = {
 			isa = XCConfigurationList;
@@ -445,6 +445,7 @@
 				3D2528671ABF3527008928F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
